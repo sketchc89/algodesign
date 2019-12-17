@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 pub fn insertion_sort<T>(v: &mut [T])
-    where T: Ord + Debug {
+    where T: PartialOrd + Debug {
 
     let len = v.len();
     if len < 2 {
@@ -19,22 +19,24 @@ pub fn insertion_sort<T>(v: &mut [T])
     }
 }
 
+// pub fn quick_sort<T>(v: &mut [T])
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_insertion_sort() {
-        let mut v = vec![0i32, 1, 2, -1, -2];
+        let mut v = vec![0_i32, 1, 2, -1, -2];
         insertion_sort(&mut v);
-        assert_eq!(v, [-2i32, -1, 0, 1, 2]);
+        assert_eq!(v, [-2_i32, -1, 0, 1, 2]);
     }
 
     #[test]
     fn test_insertion_sort_w_duplicates() {
-        let mut v = [-3i32, -3, -2, 10, -2, 0, 11];
+        let mut v = [-3_i32, -3, -2, 10, -2, 0, 11];
         insertion_sort(&mut v);
-        assert_eq!(v, [-3i32, -3, -2, -2, 0, 10, 11]);
+        assert_eq!(v, [-3_i32, -3, -2, -2, 0, 10, 11]);
     }
 
     #[test]
@@ -42,5 +44,12 @@ mod tests {
         let mut v : [i32; 0] = [];
         insertion_sort(&mut v);
         assert_eq!(v, []);
+    }
+
+    #[test]
+    fn test_insertion_sort_float() {
+        let mut v = [-1.0_f64, 1.0, 0.0];
+        insertion_sort(&mut v);
+        assert_eq!(v, [-1.0_f64, 0.0, 1.0]);
     }
 }
