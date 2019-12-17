@@ -2,7 +2,7 @@ use std::fmt::Debug;
 
 pub fn insertion_sort<T>(v: &mut [T])
 where
-    T: PartialOrd + Debug,
+    T: PartialOrd,
 {
     let len = v.len();
     if len < 2 {
@@ -22,7 +22,6 @@ where
 
 pub fn quick_sort<T, F>(v: &mut [T], cmp: &F)
 where
-    T: Debug,
     F: Fn(&T, &T) -> bool,
 {
     let len = v.len();
@@ -31,7 +30,6 @@ where
 
 fn q_sort<T, F>(v: &mut [T], cmp: &F, lo: usize, hi: usize)
 where
-    T: Debug,
     F: Fn(&T, &T) -> bool,
 {
     let len = v.len();
@@ -48,19 +46,16 @@ where
 
 fn q_partition<T, F>(v: &mut [T], cmp: &F, lo: usize, hi: usize) -> usize
 where
-    T: Debug,
     F: Fn(&T, &T) -> bool,
 {
     let mut pivot_index = lo;
     for i in lo..hi {
         if cmp(&v[i], &v[lo]) {
             pivot_index += 1;
-            println!("Swapping {:?} {:?}", v[pivot_index], v[i]);
             v.swap(pivot_index, i);
         }
     }
     v.swap(lo, pivot_index);
-    println!("Pivot index: {:?}", pivot_index);
     pivot_index
 }
 
