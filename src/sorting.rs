@@ -1,8 +1,9 @@
 use std::fmt::Debug;
 
 pub fn insertion_sort<T>(v: &mut [T])
-    where T: PartialOrd + Debug {
-
+where
+    T: PartialOrd + Debug,
+{
     let len = v.len();
     if len < 2 {
         return;
@@ -10,7 +11,7 @@ pub fn insertion_sort<T>(v: &mut [T])
     for outer in 1..len {
         for inner in 0..outer {
             if inner >= outer {
-                continue
+                continue;
             }
             if v[outer] < v[inner] {
                 v.swap(outer, inner);
@@ -19,38 +20,48 @@ pub fn insertion_sort<T>(v: &mut [T])
     }
 }
 
-pub fn quick_sort<T>(v: &mut [T], lo: usize, hi: usize)
-    where T: PartialOrd + Copy + Debug {
+pub fn quick_sort<T, F>(v: &mut [T], cmp: &F)
+where
+    T: Debug,
+    F: Fn(&T, &T) -> bool,
+{
+    let len = v.len();
+    q_sort(v, cmp, 0, len);
+}
 
-    println!("{:?} {:?}", lo, hi);
-    if lo < hi {
-        let p_index = q_partition(v, lo, hi);
-        quick_sort(v, lo, p_index);
-        quick_sort(v, p_index + 1, hi);
+fn q_sort<T, F>(v: &mut [T], cmp: &F, lo: usize, hi: usize)
+where
+    T: Debug,
+    F: Fn(&T, &T) -> bool,
+{
+    let len = v.len();
+    if len > 1 {
+        let pivot = q_partition(v, cmp, lo, hi);
+        if pivot > 1 {
+            q_sort(v, cmp, 0, pivot - 1);
+        }
+        if pivot + 1 < hi {
+            q_sort(v, cmp, pivot + 1, hi);
+        }
     }
 }
 
-fn q_partition<T>(v: &mut [T], mut lo: usize, mut hi: usize) -> usize
-    where T: PartialOrd + Copy + Debug {
-    let pivot = v[lo + (hi - lo) / 2];
-    loop {
-    println!("{:?} {:?}", lo, hi);
-        while lo > v.len() || v[lo] < pivot {
-            lo += 1;
+fn q_partition<T, F>(v: &mut [T], cmp: &F, lo: usize, hi: usize) -> usize
+where
+    T: Debug,
+    F: Fn(&T, &T) -> bool,
+{
+    let mut pivot_index = lo;
+    for i in lo..hi {
+        if cmp(&v[i], &v[lo]) {
+            pivot_index += 1;
+            println!("Swapping {:?} {:?}", v[pivot_index], v[i]);
+            v.swap(pivot_index, i);
         }
-        while v[hi] > pivot {
-            if hi == 0 {
-                break;
-            }
-            hi -= 1;
-        }
-        if lo >= hi {
-            return hi;
-        }
-        v.swap(lo, hi);
-        lo += 1;
-        hi -= 1;
     }
+    v.swap(lo, pivot_index);
+    println!("Pivot index: {:?}", pivot_index);
+    pivot_index
 }
 
 #[cfg(test)]
@@ -73,7 +84,7 @@ mod tests {
 
     #[test]
     fn test_insertion_sort_empty() {
-        let mut v : [i32; 0] = [];
+        let mut v: [i32; 0] = [];
         insertion_sort(&mut v);
         assert_eq!(v, []);
     }
@@ -88,16 +99,28 @@ mod tests {
     #[test]
     fn test_quick_sort() {
         let mut v = vec![0_i32, 1, 2, -1, -2];
-        let len = v.len();
-        quick_sort(&mut v, 0, len - 1);
+        quick_sort(&mut v, &|x, y| x < y);
         assert_eq!(v, [-2_i32, -1, 0, 1, 2]);
     }
 
     #[test]
     fn test_quick_sort_same() {
         let mut v = vec![0_i32, 0, 0, 0, 0];
-        let len = v.len();
-        quick_sort(&mut v, 0, len - 1);
+        quick_sort(&mut v, &|x, y| x < y);
         assert_eq!(v, [0_i32, 0, 0, 0, 0]);
+    }
+
+    #[test]
+    fn test_quick_sort_one() {
+        let mut v = [1_u32];
+        quick_sort(&mut v, &|x, y| x < y);
+        assert_eq!(v, [1_u32]);
+    }
+
+    #[test]
+    fn test_quick_sort_empty() {
+        let mut v: [i32; 0] = [];
+        quick_sort(&mut v, &|x, y| x < y);
+        assert_eq!(v, []);
     }
 }
