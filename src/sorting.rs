@@ -1,5 +1,3 @@
-use std::fmt::Debug;
-
 pub fn insertion_sort<T>(v: &mut [T])
 where
     T: PartialOrd,

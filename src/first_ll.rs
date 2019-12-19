@@ -40,12 +40,13 @@ impl List {
     }
 }
 
+#[cfg(test)]
 mod testing {
     use super::*;
 
     #[test]
     fn initializes() {
-        let list = List::new();
+        let _list = List::new();
     }
 
     #[test]
