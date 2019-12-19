@@ -18,3 +18,12 @@ impl List {
         List { head: Link::Terminating }
     }
 }
+
+mod testing {
+    use super::*;
+
+    #[test]
+    fn initializes() {
+        let list = List::new();
+    }
+}
