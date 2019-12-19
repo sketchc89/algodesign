@@ -4,7 +4,7 @@ pub struct List {
 
 enum Link {
     Terminating,
-    Connecting(Box<List>),
+    Connecting(Box<Node>),
 }
 
 struct Node {
@@ -15,13 +15,28 @@ struct Node {
 impl List {
     // TODO
     pub fn new() -> Self {
-        List { head: Link::Terminating }
+        List {
+            head: Link::Terminating,
+        }
     }
 
     pub fn push(&mut self, val: i32) {
+        let node = Box::new(Node {
+            elem: val,
+            next: std::mem::replace(&mut self.head, Link::Terminating),
+        });
+
+        self.head = Link::Connecting(node);
     }
 
-    pub fn get(&self, index: usize) {
+    pub fn pop(&mut self) -> Option<i32> {
+        match std::mem::replace(&mut self.head, Link::Terminating) {
+            Link::Terminating => None,
+            Link::Connecting(node) => {
+                self.head = node.next;
+                Some(node.elem)
+            }
+        }
     }
 }
 
@@ -33,9 +48,16 @@ mod testing {
         let list = List::new();
     }
 
+    #[test]
     fn push_new_elem() {
         let mut list = List::new();
-        list.push(10);
-        assert_eq!(list.get(0), 10);
+        assert_eq!(list.pop(), None);
+        list.push(11);
+        list.push(12);
+        list.push(13);
+        assert_eq!(list.pop(), Some(13));
+        assert_eq!(list.pop(), Some(12));
+        assert_eq!(list.pop(), Some(11));
+        assert_eq!(list.pop(), None);
     }
 }
