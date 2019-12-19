@@ -40,6 +40,15 @@ impl List {
     }
 }
 
+impl Drop for List {
+    fn drop(&mut self) {
+        let mut link = std::mem::replace(&mut self.head, Link::Terminating);
+        while let Link::Connecting(mut _node) = link {
+            link = std::mem::replace(&mut self.head, Link::Terminating);
+        }
+    }
+}
+
 #[cfg(test)]
 mod testing {
     use super::*;
