@@ -24,6 +24,12 @@ where
     binary_search_core(v, elem, 0, len)
 }
 
+/// Return index of an element
+///
+/// # Notes
+///
+/// lo and hi are a half open range
+///
 fn binary_search_core<T>(v: &[T], elem: &T, lo: usize, hi: usize) -> Option<usize>
 where
     T: PartialOrd,
@@ -67,20 +73,20 @@ where
     )
 }
 
+/// Return index of first element
+///
+/// # Notes
+///
+/// lo and hi are a half open range
+///
 fn binary_search_first<T>(v: &[T], elem: &T, lo: usize, hi: usize) -> Option<usize>
 where
     T: PartialOrd + Debug,
 {
     let mid = (lo + hi) / 2;
 
-    // println!(
-    //     "Searching first elem {:?} at position {:?} between {:?} and {:?}",
-    //     *elem, mid, lo, hi
-    // );
-    // println!("Found {:?}", v[mid]);
     if v[mid] == *elem {
         if mid == 0 {
-            // check 0 so mid - 1 doesn't panic
             Some(mid)
         } else if v[mid - 1] < v[mid] {
             Some(mid)
@@ -100,19 +106,19 @@ where
     }
 }
 
+/// Return index of last element
+///
+/// # Notes
+///
+/// lo and hi are a half open range
+///
 fn binary_search_last<T>(v: &[T], elem: &T, lo: usize, hi: usize) -> Option<usize>
 where
     T: PartialOrd + Debug,
 {
     let mid = (lo + hi) / 2;
-    // println!(
-    //     "Searching last elem {:?} at position {:?} between {:?} and {:?}",
-    //     *elem, mid, lo, hi
-    // );
-    // println!("Found {:?}", v[mid]);
     if v[mid] == *elem {
         if mid + 1 == hi {
-            // check 0 so mid - 1 doesn't panic
             Some(mid)
         } else if v[mid + 1] > v[mid] {
             Some(mid)
