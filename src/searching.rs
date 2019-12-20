@@ -1,3 +1,21 @@
+use std::fmt::Debug;
+
+/// Return index of element in an array if that element exists
+///
+/// # Notes
+///
+/// Requires input to be sorted
+/// Will return the index of one of the elements rather than the first or last element.
+///
+/// # Examples
+/// ```
+/// use algodesign::searching::binary_search;
+///
+/// let v = vec![0, 1, 2, 5];
+/// assert_eq!(binary_search(&v, &2), Some(2));
+/// assert_eq!(binary_search(&v, &4), None);
+/// ```
+///
 pub fn binary_search<T>(v: &[T], elem: &T) -> Option<usize>
 where
     T: PartialOrd,
@@ -14,21 +32,105 @@ where
     if v[mid] == *elem {
         Some(mid)
     } else if v[mid] > *elem && mid > lo {
-        binary_search_core(v, elem, 0, mid - 1)
-    } else if v[mid] < *elem && mid < hi {
+        binary_search_core(v, elem, lo, mid)
+    } else if v[mid] < *elem && (mid + 1) < hi {
         binary_search_core(v, elem, mid + 1, hi)
     } else {
         None
     }
 }
 
-fn binary_search_range<T>(v: &[T], elem: &T) -> (Option<usize>, Option<usize>)
+/// Return index of first and last occurence of element in an array if that element exists
+///
+/// # Notes
+///
+/// Requires input to be sorted
+/// The last element is in the range (i.e. the range would be inclusive
+///
+/// # Examples
+/// ```
+/// use algodesign::searching::binary_search_range;
+///
+/// let v = vec![0, 1, 2, 2, 2, 3, 5];
+/// assert_eq!(binary_search_range(&v, &2), (Some(2), Some(4)));
+/// assert_eq!(binary_search_range(&v, &4), (None, None));
+/// ```
+///
+pub fn binary_search_range<T>(v: &[T], elem: &T) -> (Option<usize>, Option<usize>)
 where
-    T: PartialOrd,
+    T: PartialOrd + Debug,
 {
-    (None, None)
+    let len = v.len();
+    (
+        binary_search_first(v, elem, 0, len),
+        binary_search_last(v, elem, 0, len),
+    )
 }
 
+fn binary_search_first<T>(v: &[T], elem: &T, lo: usize, hi: usize) -> Option<usize>
+where
+    T: PartialOrd + Debug,
+{
+    let mid = (lo + hi) / 2;
+
+    // println!(
+    //     "Searching first elem {:?} at position {:?} between {:?} and {:?}",
+    //     *elem, mid, lo, hi
+    // );
+    // println!("Found {:?}", v[mid]);
+    if v[mid] == *elem {
+        if mid == 0 {
+            // check 0 so mid - 1 doesn't panic
+            Some(mid)
+        } else if v[mid - 1] < v[mid] {
+            Some(mid)
+        } else {
+            binary_search_first(v, elem, lo, mid)
+        }
+    } else if v[mid] > *elem && mid > lo {
+        binary_search_first(v, elem, lo, mid)
+    } else if v[mid] < *elem && (mid + 1) < hi {
+        binary_search_first(v, elem, mid + 1, hi)
+    } else {
+        println!(
+            "Failed to find elem {:?} between {:?} and {:?}. {:?}",
+            *elem, lo, hi, v[mid]
+        );
+        None
+    }
+}
+
+fn binary_search_last<T>(v: &[T], elem: &T, lo: usize, hi: usize) -> Option<usize>
+where
+    T: PartialOrd + Debug,
+{
+    let mid = (lo + hi) / 2;
+    // println!(
+    //     "Searching last elem {:?} at position {:?} between {:?} and {:?}",
+    //     *elem, mid, lo, hi
+    // );
+    // println!("Found {:?}", v[mid]);
+    if v[mid] == *elem {
+        if mid + 1 == hi {
+            // check 0 so mid - 1 doesn't panic
+            Some(mid)
+        } else if v[mid + 1] > v[mid] {
+            Some(mid)
+        } else {
+            binary_search_last(v, elem, mid + 1, hi)
+        }
+    } else if v[mid] > *elem && mid > lo {
+        binary_search_last(v, elem, lo, mid)
+    } else if v[mid] < *elem && (mid + 1) < hi {
+        binary_search_last(v, elem, mid + 1, hi)
+    } else {
+        println!(
+            "Failed to find last elem {:?} between {:?} and {:?}. {:?}",
+            *elem, lo, hi, v[mid]
+        );
+        None
+    }
+}
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -68,5 +170,28 @@ mod tests {
         let (first, last) = binary_search_range(&v, &1);
         assert_eq!(first, Some(3));
         assert_eq!(last, Some(5));
+    }
+
+    #[test]
+    fn binary_search_first_last_elem_all_same() {
+        let v = vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let (first, last) = binary_search_range(&v, &0);
+        assert_eq!(first, Some(0));
+        assert_eq!(last, Some(v.len() - 1));
+    }
+
+    #[test]
+    fn binary_search_first_last_elem_all_same_none() {
+        let v = vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let (first, last) = binary_search_range(&v, &1);
+        assert_eq!(first, None);
+        assert_eq!(last, None);
+    }
+
+    #[test]
+    fn binary_search_first_last_elem_all_same_diff() {
+        let v = vec![0, 1, 2, 2, 2, 3, 5];
+        assert_eq!(binary_search_range(&v, &2), (Some(2), Some(4)));
+        assert_eq!(binary_search_range(&v, &4), (None, None));
     }
 }
