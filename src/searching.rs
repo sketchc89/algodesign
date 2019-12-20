@@ -55,10 +55,18 @@ mod tests {
     }
 
     #[test]
-    fn binary_search_first_last_elem() {
+    fn binary_search_first_last_none() {
         let v = vec![0, 0, 0, 1, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6];
         let (first, last) = binary_search_range(&v, &10);
         assert_eq!(first, None);
         assert_eq!(last, None);
+    }
+
+    #[test]
+    fn binary_search_first_last_elem() {
+        let v = vec![0, 0, 0, 1, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6];
+        let (first, last) = binary_search_range(&v, &1);
+        assert_eq!(first, Some(3));
+        assert_eq!(last, Some(5));
     }
 }
