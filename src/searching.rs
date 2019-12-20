@@ -46,4 +46,12 @@ mod tests {
         let res = binary_search(&v, &0);
         assert!(res.unwrap() < 3); // binary search doesn't specify whether it's the first, last, etc
     }
+
+    #[test]
+    fn binary_search_first_last_elem() {
+        let v = vec![0, 0, 0, 1, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6];
+        let (first, last) = binary_search_range(&v, &10);
+        assert_eq!(first, None);
+        assert_eq!(last, None);
+    }
 }
