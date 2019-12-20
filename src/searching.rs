@@ -22,6 +22,13 @@ where
     }
 }
 
+fn binary_search_range<T>(v: &[T], elem: &T) -> (Option<usize>, Option<usize>)
+where
+    T: PartialOrd,
+{
+    (None, None)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
