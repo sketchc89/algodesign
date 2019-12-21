@@ -80,7 +80,7 @@ pub fn vi_6_sqrt(n: i32) -> Option<i32> {
 }
 
 /// 7. If bst isn't balanced it could take O(n) to check every element
-/// 8. O(lg2(n))
+/// 8. O(n). question is worded strangely. Basically means worst case
 /// 9. function is too horrible to refactor in rust, essentially clone, append
 ///    O(n) for appending,  O(1 + 2 + 3 + ... n) = O(n/2) for clone, so O(n^2)
 
@@ -95,9 +95,10 @@ pub fn vi_10_sum_digits(n: i32) -> i32 {
     sum
 }
 
-/// 11. O(N^2)
-/// Checking if is_sorted takes O(N) worst case for already sorted strings which is common
-/// Printing each string increases at O(N) ~26N
+/// 11. O(s * 26^s)
+/// Checking if is_sorted takes O(s) worst case for already sorted strings which is common
+/// Printing each string increases at O(26^s), each letter is independent of the next letter like
+/// HTHTHH in coin tossing
 
 pub fn vi_11_sorted_strings(n: usize) {
     let s = String::new();
