@@ -70,6 +70,14 @@ void Vector<T>::pushBack(const T& val) {
 }
 
 template <typename T>
+void Vector<T>::popBack() {
+    _used--;
+    if (_used != 0 && _reserved / _used >= SHRINK_FACTOR) {
+        _reserved = std::max(_used, MIN_RESERVED);  // TODO: go back and make these powers of two
+    }
+}
+
+template <typename T>
 void Vector<T>::growArray() {
     _reserved *= GROW_FACTOR;
     T* newData = new T[_reserved];

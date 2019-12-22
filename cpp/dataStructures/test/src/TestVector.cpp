@@ -148,4 +148,32 @@ TEST_F(FilledVectorFixture, IsNotEmpty) {
     ASSERT_FALSE(v.isEmpty());
 }
 
+TEST_F(FilledVectorFixture, PopsReducesSizeByOne) {
+    size_t oldSize = v.size();
+
+    v.popBack();
+
+    ASSERT_THAT(v.size(), Eq(oldSize - 1));
+}
+
+TEST_F(FilledVectorFixture, PopUntilEmpty) {
+    while (!v.isEmpty()) {
+        v.popBack();
+    }
+    ASSERT_THAT(v.size(), Eq(0));
+}
+
+TEST_F(EmptyVectorFixture, CapacityShrinks) {
+    for (size_t i = 0; i < 255; ++i) {
+        v.pushBack(i);
+    }
+    size_t oldCapacity = v.capacity();
+
+    while (!v.isEmpty()) {
+        v.popBack();
+    }
+
+    ASSERT_THAT(v.capacity(), Lt(oldCapacity));
+}
+
 }  // namespace testing

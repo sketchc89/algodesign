@@ -34,6 +34,11 @@ public:
     /*! @brief append val to the end of Vector
      *  @param val Value to place at end of array */
     void pushBack(const T& val);
+
+    /*! @brief remove last element from end of Vector
+     *  @details If vector shrinks by SHRINK_FACTOR then reduce capacity */
+    void popBack();
+
     void swap(Vector& other) noexcept;
 
     /*! @brief Number of spots reserved in memory for data */
