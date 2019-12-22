@@ -1,5 +1,3 @@
-use std::error::Error;
-
 /// Additional problems
 /// VI.
 /// 1. O(b), addition once for every b
