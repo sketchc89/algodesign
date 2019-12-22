@@ -8,6 +8,8 @@ namespace ds {
 template <typename T>
 class Vector {
 public:
+    using ConstIterator = T* const;
+    using Iterator = T*;
     /*! @brief Default constructor */
     Vector();
     /*! @brief Construct resizable array of given size zero-initialized
@@ -61,6 +63,11 @@ public:
 
     /*! @brief Does the Vector contain any data. True if empty, false otherwise */
     bool isEmpty() const noexcept;
+
+    Iterator begin() noexcept;
+    ConstIterator cBegin() const noexcept;
+    Iterator end() noexcept;
+    ConstIterator cEnd() const noexcept;
 
 private:
     /* Member functions */

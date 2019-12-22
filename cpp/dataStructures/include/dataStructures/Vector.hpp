@@ -145,6 +145,26 @@ bool Vector<T>::isEmpty() const noexcept {
 }
 
 template <typename T>
+T* Vector<T>::begin() noexcept {
+    return _data;
+}
+
+template <typename T>
+T* const Vector<T>::cBegin() const noexcept {
+    return _data;
+}
+
+template <typename T>
+T* Vector<T>::end() noexcept {
+    return _data + _used;
+}
+
+template <typename T>
+T* const Vector<T>::cEnd() const noexcept {
+    return _data + _used;
+}
+
+template <typename T>
 void swap(Vector<T>& lhs, Vector<T>& rhs) {
     lhs.swap(rhs);
 }
