@@ -41,6 +41,8 @@ public:
     /*! @brief Number of spots filled with data */
     size_t size() const noexcept;
 
+    void reserve(size_t reserve);
+
 private:
     /* Member functions */
     /*! @brief Increase size of array and copy old data into new larger array */

@@ -4,10 +4,10 @@
 #include <algorithm>  // std::copy, max, swap
 
 template <typename T>
-Vector<T>::Vector() : Vector<T>(0, 0) {}
+Vector<T>::Vector() : Vector<T>(0, T{}) {}
 
 template <typename T>
-Vector<T>::Vector(size_t size) : Vector<T>(size, 0) {}
+Vector<T>::Vector(size_t size) : Vector<T>(size, T{}) {}
 
 template <typename T>
 Vector<T>::Vector(size_t size, const T& val)  //
@@ -95,6 +95,16 @@ size_t Vector<T>::capacity() const noexcept {
 template <typename T>
 size_t Vector<T>::size() const noexcept {
     return _used;
+}
+
+template <typename T>
+void Vector<T>::reserve(size_t reserve) {
+    // prevent overflow
+    reserve = std::min(reserve, std::numeric_limits<size_t>::max() / GROW_FACTOR);
+
+    while (_reserved < reserve) {
+        _reserved *= GROW_FACTOR;
+    }
 }
 
 template <typename T>

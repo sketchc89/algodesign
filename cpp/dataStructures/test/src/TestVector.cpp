@@ -83,4 +83,23 @@ TEST_F(EmptyVectorFixture, CapacityGreaterThanSize) {
     }
 }
 
+TEST_F(FilledVectorFixture, ReservesMoreSpace) {
+    size_t moreSpace = 100;
+    size_t oldSize = v.size();
+
+    v.reserve(moreSpace);
+
+    ASSERT_THAT(v.capacity(), Ge(moreSpace));
+    ASSERT_THAT(v.size(), Eq(oldSize));
+}
+
+TEST_F(EmptyVectorFixture, CantReserveTooMuchSpace) {
+    size_t moreSpace = std::numeric_limits<size_t>::max();
+
+    v.reserve(moreSpace);
+
+    // Tests that vector doesn't over flow trying to allocate too much space
+    ASSERT_THAT(v.capacity(), Lt(moreSpace));
+}
+
 }  // namespace testing
