@@ -19,6 +19,7 @@ public:
 
     /*! @brief Default constructor */
     Vector();
+    virtual ~Vector();
     /*! @brief Construct resizable array of given size zero-initialized
      *  @param size Number of indices to fill with zeros */
     Vector(size_t size);
@@ -35,6 +36,10 @@ public:
     void pushBack(const T& val);
 
 private:
+    /* Member functions */
+    void growArray();
+
+    /* Member variables */
     /*! Dynamic array for holding contents of Vector */
     T* _data;
     /*! Counter of how many Ts are in Vector */

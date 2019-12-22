@@ -38,4 +38,9 @@ TEST_F(EmptyVectorFixture, PushesBack) {
     EXPECT_THAT(v[2], Eq(12));
 }
 
+TEST_F(EmptyVectorFixture, PushesBackALot) {
+    for (size_t i = 0; i < 256; ++i) {
+        v.pushBack(i);
+    }
+}
 }  // namespace testing

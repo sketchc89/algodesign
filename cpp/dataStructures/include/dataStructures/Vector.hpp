@@ -20,12 +20,29 @@ Vector<T>::Vector(size_t size, const T& val) : _used{size} {
 }
 
 template <typename T>
+Vector<T>::~Vector() {
+    delete[] _data;
+}
+
+template <typename T>
 void Vector<T>::pushBack(const T& val) {
-    while (_used >= _reserved) {
-        _reserved *= GROW_FACTOR;
+    if (_used + 1 >= _reserved) {
+        growArray();
     }
     _data[_used] = val;
     ++_used;
+}
+
+template <typename T>
+void Vector<T>::growArray() {
+    size_t oldSize = _reserved;
+    _reserved *= GROW_FACTOR;
+    T* newData = new T[_reserved];
+    for (size_t i = 0; i < oldSize; ++i) {
+        newData[i] = _data[i];
+    }
+    delete[] _data;
+    _data = newData;
 }
 
 template <typename T>
