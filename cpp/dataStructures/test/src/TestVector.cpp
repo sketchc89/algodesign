@@ -140,4 +140,12 @@ TEST_F(EmptyVectorFixture, ResizeEmptyVectorBigger) {
     ASSERT_THAT(v[99], Eq(0));
 }
 
+TEST_F(EmptyVectorFixture, IsEmpty) {
+    ASSERT_TRUE(v.isEmpty());
+}
+
+TEST_F(FilledVectorFixture, IsNotEmpty) {
+    ASSERT_FALSE(v.isEmpty());
+}
+
 }  // namespace testing

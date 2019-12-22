@@ -132,6 +132,11 @@ void Vector<T>::resize(size_t size) {
 }
 
 template <typename T>
+bool Vector<T>::isEmpty() const noexcept {
+    return _used == 0;
+}
+
+template <typename T>
 void swap(Vector<T>& lhs, Vector<T>& rhs) {
     lhs.swap(rhs);
 }

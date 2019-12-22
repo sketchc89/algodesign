@@ -54,6 +54,9 @@ public:
      *  @param size New size of Vector */
     void resize(size_t size);
 
+    /*! @brief Does the Vector contain any data. True if empty, false otherwise */
+    bool isEmpty() const noexcept;
+
 private:
     /* Member functions */
     /*! @brief Increase size of array and copy old data into new larger array */
