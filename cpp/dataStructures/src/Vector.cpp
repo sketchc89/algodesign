@@ -4,4 +4,4 @@ namespace ds {
 
 Vector::Vector() {}
 
-} // namespace ds
+}  // namespace ds
