@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace ds {
 
 /*! @brief Resizable array */
@@ -18,7 +20,7 @@ public:
     const T& operator[](size_t idx) const;
 
 private:
-    T _array[0];
+    std::unique_ptr<T[]> _data;
     size_t _used;
     size_t _reserved;
 };
