@@ -41,7 +41,18 @@ public:
     /*! @brief Number of spots filled with data */
     size_t size() const noexcept;
 
+    /*! @brief Increases capacity of Vector to at least the given value
+     *  @details Will at most reserve size_t max / GROW_FACTOR to prevent overflow
+     *  @nWill not change capacity if reserve is less than current capacity
+     *  @param reserve Vector will reserve more than this many spots
+     *  (i.e. will usually reserve some factor of 2 above) */
     void reserve(size_t reserve);
+
+    /*! @brief Shrink or grow Vector to new size
+     *  @details If size is smaller than current size then values are truncated
+     *  @nIf size is larger than current size then values are filled with default initialized values
+     *  @param size New size of Vector */
+    void resize(size_t size);
 
 private:
     /* Member functions */

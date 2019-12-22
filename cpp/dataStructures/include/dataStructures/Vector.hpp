@@ -71,12 +71,9 @@ void Vector<T>::pushBack(const T& val) {
 
 template <typename T>
 void Vector<T>::growArray() {
-    size_t oldSize = _reserved;
     _reserved *= GROW_FACTOR;
     T* newData = new T[_reserved];
-    for (size_t i = 0; i < oldSize; ++i) {
-        newData[i] = _data[i];
-    }
+    std::copy(_data, _data + _used, newData);
     delete[] _data;
     _data = newData;
 }
@@ -104,6 +101,33 @@ void Vector<T>::reserve(size_t reserve) {
 
     while (_reserved < reserve) {
         _reserved *= GROW_FACTOR;
+    }
+}
+
+template <typename T>
+void Vector<T>::resize(size_t size) {
+    if (size == _used) {
+        return;
+    } else if (size < _used) {
+        T* newData = new T[size];
+        std::copy(_data, _data + size, newData);
+        _used = size;
+        _reserved = size;
+        delete[] _data;
+        _data = newData;
+    } else if (size > _used) {
+        T* newData = new T[size];
+        std::copy(_data, _data + _used, newData);
+        // fill rest of array with default initialized values
+        for (size_t i = _used; i < size; ++i) {
+            newData[i] = T{};
+        }
+        _used = size;
+        _reserved = size;
+        delete[] _data;
+        _data = newData;
+    } else {
+        std::abort();
     }
 }
 

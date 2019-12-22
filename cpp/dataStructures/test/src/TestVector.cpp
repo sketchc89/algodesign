@@ -47,7 +47,6 @@ class FilledVectorFixture : public EmptyVectorFixture {
         for (size_t i = 0; i < 32; ++i) {
             v.pushBack(i);
         }
-        std::cerr << v[0];
     }
 };  // class FilledVectorFixture
 
@@ -100,6 +99,45 @@ TEST_F(EmptyVectorFixture, CantReserveTooMuchSpace) {
 
     // Tests that vector doesn't over flow trying to allocate too much space
     ASSERT_THAT(v.capacity(), Lt(moreSpace));
+}
+
+TEST_F(EmptyVectorFixture, CantReserveTooLittleSpace) {
+    size_t tooLittleSpace = 1;
+
+    v.reserve(tooLittleSpace);
+
+    // Tests that vector doesn't over flow trying to allocate too much space
+    ASSERT_THAT(v.capacity(), Gt(tooLittleSpace));
+}
+
+TEST_F(FilledVectorFixture, CantReserveTooLessSpaceThanUsed) {
+    size_t lessSpaceThanUsed = v.size() - 2;
+
+    v.reserve(lessSpaceThanUsed);
+
+    // Tests that vector doesn't over flow trying to allocate too much space
+    ASSERT_THAT(v.capacity(), Gt(lessSpaceThanUsed));
+}
+
+TEST_F(FilledVectorFixture, ResizeFilledVectorSmaller) {
+    size_t smallerSize = v.size() / 2;
+    size_t oldSize = v.size();
+    int32_t oldOne = v[1];
+
+    v.resize(smallerSize);
+
+    ASSERT_THAT(v.size(), Lt(oldSize));
+    ASSERT_THAT(v.size(), Eq(smallerSize));
+    ASSERT_THAT(v[1], Eq(oldOne));
+}
+
+TEST_F(EmptyVectorFixture, ResizeEmptyVectorBigger) {
+    size_t biggerSize = 100;
+
+    v.resize(biggerSize);
+
+    ASSERT_THAT(v.size(), Eq(biggerSize));
+    ASSERT_THAT(v[99], Eq(0));
 }
 
 }  // namespace testing
