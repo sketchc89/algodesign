@@ -36,6 +36,11 @@ public:
     void pushBack(const T& val);
     void swap(Vector& other) noexcept;
 
+    /*! @brief Number of spots reserved in memory for data */
+    size_t capacity() const noexcept;
+    /*! @brief Number of spots filled with data */
+    size_t size() const noexcept;
+
 private:
     /* Member functions */
     /*! @brief Increase size of array and copy old data into new larger array */

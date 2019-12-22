@@ -62,7 +62,7 @@ void Vector<T>::swap(Vector<T>& other) noexcept {
 
 template <typename T>
 void Vector<T>::pushBack(const T& val) {
-    if (_used + 1 >= _reserved) {
+    if (_used >= _reserved) {
         growArray();
     }
     _data[_used] = val;
@@ -85,6 +85,16 @@ template <typename T>
 const T& Vector<T>::operator[](size_t idx) const {
     assert(idx < _used);
     return _data[idx];
+}
+
+template <typename T>
+size_t Vector<T>::capacity() const noexcept {
+    return _reserved;
+}
+
+template <typename T>
+size_t Vector<T>::size() const noexcept {
+    return _used;
 }
 
 template <typename T>

@@ -76,4 +76,11 @@ TEST_F(FilledVectorFixture, CopyAssignable) {
     ASSERT_THAT(other[31], Eq(31));
 }
 
+TEST_F(EmptyVectorFixture, CapacityGreaterThanSize) {
+    for (size_t i = 0; i < 255; ++i) {
+        ASSERT_THAT(v.capacity(), Ge(v.size()));
+        v.pushBack(i);
+    }
+}
+
 }  // namespace testing
