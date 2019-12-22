@@ -21,4 +21,21 @@ TEST(Vector, ValueInitializes) {
     EXPECT_THAT(v[2], Eq(5));
 }
 
+class EmptyVectorFixture : public Test {
+protected:
+    Vector<int32_t> v;
+    void SetUp() override {
+        Vector<int32_t> v;
+    }
+};  // class EmptyVectorFixture
+
+TEST_F(EmptyVectorFixture, PushesBack) {
+    v.pushBack(10);
+    v.pushBack(11);
+    v.pushBack(12);
+    EXPECT_THAT(v[0], Eq(10));
+    EXPECT_THAT(v[1], Eq(11));
+    EXPECT_THAT(v[2], Eq(12));
+}
+
 }  // namespace testing
