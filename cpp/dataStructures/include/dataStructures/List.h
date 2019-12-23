@@ -38,8 +38,9 @@ public:
     Node(Node&& other);
     Node& operator=(const Node& other) = default;
     Node& operator=(Node&& other) = default;
-    virtual ~Node();
+    virtual ~Node() = default;
     void swap(Node& other);
+    T value() const noexcept;
 
 private:
     T _elem;
