@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <cstring>
 
 namespace ds {
 
@@ -89,15 +89,18 @@ private:
     size_t _reserved;
     /*! Dynamic array for holding contents of Vector */
     T* _data;
-};
+};  // class Vector
 
+}  // namespace ds
+
+namespace std {
 /*! @brief swap data from Vector on lhs to rhs and vice-versa
  *  @param lhs Vector
  *  @param rhs Another vector */
 template <typename T>
-void swap(Vector<T>& lhs, Vector<T>& rhs);
+void swap(ds::Vector<T>& lhs, ds::Vector<T>& rhs);
+}  // namespace std
+
 
 // impl
 #include "Vector.hpp"
-
-}  // namespace ds

@@ -2,7 +2,9 @@
  *  @brief Implements templated Vector data structure */
 
 #include <algorithm>  // std::copy, max, swap
+#include <cassert>
 
+namespace ds {
 template <typename T>
 Vector<T>::Vector() : Vector<T>(0, T{}) {}
 
@@ -163,8 +165,11 @@ template <typename T>
 T* const Vector<T>::cEnd() const noexcept {
     return _data + _used;
 }
+}  // namespace ds
 
+namespace std {
 template <typename T>
-void swap(Vector<T>& lhs, Vector<T>& rhs) {
+void swap(ds::Vector<T>& lhs, ds::Vector<T>& rhs) {
     lhs.swap(rhs);
 }
+}  // namespace std

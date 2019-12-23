@@ -6,6 +6,7 @@ add_executable(${PROJ})
 target_sources(${PROJ}
     PUBLIC
     src/main.cpp
+    src/TestList.cpp
     src/TestVector.cpp)
 
 target_include_directories(${PROJ}

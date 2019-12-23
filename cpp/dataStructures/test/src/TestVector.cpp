@@ -1,7 +1,7 @@
+#include <dataStructures/Vector.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-#include <dataStructures/Vector.h>
 
 using ds::Vector;
 
