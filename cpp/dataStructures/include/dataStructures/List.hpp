@@ -52,23 +52,34 @@ void List<T>::swap(List& other) noexcept {
 template <typename T>
 std::experimental::optional<T> List<T>::find(const T& val) const noexcept {
     std::experimental::optional<T> res;
-    Node<T>* currentNode = _head;
-    while (currentNode->next != nullptr) {
+    Node<T> const* currentNode = _head;
+    while (currentNode != nullptr) {
         auto v = currentNode->value;
         if (v == val) {
             res = v;
             return res;
-        } else {
-            currentNode = currentNode->next;
         }
+        currentNode = currentNode->next;
     }
 
-    // check last value
-    auto v = currentNode->value;
-    if (currentNode->value == val) {
-        res = v;
-    }
     return res;
+}
+
+template <typename T>
+bool List<T>::remove(const T& val) {
+    Node<T>* currentNode = _head;
+    Node<T>* prevNode = nullptr;
+    while (currentNode != nullptr) {
+        auto v = currentNode->value;
+        if (v == val) {
+            prevNode->next = currentNode->next;
+            delete currentNode;
+            return true;
+        }
+        prevNode = currentNode;
+        currentNode = currentNode->next;
+    }
+    return false;
 }
 
 }  // namespace ds
@@ -78,4 +89,5 @@ template <typename T>
 void swap(ds::List<T>& lhs, ds::List<T>& rhs) noexcept {
     lhs.swap(rhs);
 }
+
 }  // namespace std

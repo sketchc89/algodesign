@@ -84,7 +84,17 @@ class FilledListFixture : public EmptyListFixture {
 };  // class FilledListFixture
 
 TEST_F(FilledListFixture, Find) {
-    ASSERT_TRUE(l.find(0));
+    for (size_t i = 0; i < 32; ++i) {
+        ASSERT_TRUE(l.find(0));
+    }
+    ASSERT_FALSE(l.find(32));
+}
+
+TEST_F(FilledListFixture, Remove) {
+    int32_t val = 16;
+    ASSERT_TRUE(l.find(val));
+    ASSERT_TRUE(l.remove(val));
+    ASSERT_FALSE(l.find(val));
 }
 
 }  // namespace testing

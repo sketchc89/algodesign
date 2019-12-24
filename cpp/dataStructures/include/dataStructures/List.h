@@ -26,6 +26,7 @@ public:
     void swap(List& other) noexcept;
     void pushBack(const T& value);
     void popBack();
+    bool remove(const T& val);
     std::experimental::optional<T> find(const T& val) const noexcept;
 
 private:
