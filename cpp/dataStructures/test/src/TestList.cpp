@@ -97,4 +97,9 @@ TEST_F(FilledListFixture, Remove) {
     ASSERT_FALSE(l.find(val));
 }
 
+TEST_F(FilledListFixture, RemoveNonExistingElement) {
+    ASSERT_FALSE(l.find(50));
+    ASSERT_FALSE(l.remove(50));
+}
+
 }  // namespace testing

@@ -25,7 +25,13 @@ TEST_F(EmptyHashMapFixture, InsertKey) {
 TEST_F(EmptyHashMapFixture, InsertKeyTwice) {
     map.insert(100, std::string("one hundred"));
     map.insert(100, std::string("two hundred"));
-    ASSERT_THAT(map.at(100).value(), Eq("two hundred"));
+    ASSERT_THAT(map.at(100).value(), Eq("one hundred"));
+}
+
+TEST_F(EmptyHashMapFixture, InsertReplaceKey) {
+    map.insert(100, std::string("one hundred"));
+    map.insert(100, std::string("two hundred"));
+    ASSERT_THAT(map.at(100).value(), Eq("one hundred"));
 }
 
 }  // namespace testing

@@ -54,7 +54,7 @@ std::experimental::optional<T> List<T>::find(const T& val) const noexcept {
     std::experimental::optional<T> res;
     Node<T> const* currentNode = _head;
     while (currentNode != nullptr) {
-        auto v = currentNode->value;
+        auto& v = currentNode->value;
         if (v == val) {
             res = v;
             return res;
@@ -69,10 +69,16 @@ template <typename T>
 bool List<T>::remove(const T& val) {
     Node<T>* currentNode = _head;
     Node<T>* prevNode = nullptr;
+
     while (currentNode != nullptr) {
-        auto v = currentNode->value;
-        if (v == val) {
-            prevNode->next = currentNode->next;
+        if (currentNode->value == val) {
+            if (prevNode == nullptr) {
+                // indicates value found at first position and head needs to be updated
+                _head = nullptr;
+            } else {
+                // otherwise link previous node to node after node to be removed
+                prevNode->next = currentNode->next;
+            }
             delete currentNode;
             return true;
         }

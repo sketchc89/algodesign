@@ -1,4 +1,3 @@
-
 namespace ds {
 
 template <typename K, typename V>
@@ -17,14 +16,28 @@ HashMap<K, V>::~HashMap() {
 }
 
 template <typename K, typename V>
-void HashMap<K, V>::insert(__attribute__((unused)) K key, __attribute__((unused)) const V& value) {
+void HashMap<K, V>::insert(const K& key, const V& value) {
     auto k = _hash(key);
     KeyValuePair<K, V> kv(key, value);
-    _array[k % _arraySize].pushBack(kv);
+
+    auto& list = _array[k % _arraySize];
+    if (!list.find(kv)) {
+        list.pushBack(kv);
+    }
 }
 
 template <typename K, typename V>
-std::experimental::optional<V> HashMap<K, V>::at(K key) {
+void HashMap<K, V>::insertReplace(const K& key, const V& value) {
+    auto k = _hash(key);
+    KeyValuePair<K, V> kv(key, value);
+
+    auto& list = _array[k % _arraySize];
+    list.remove(kv);
+    list.pushBack(kv);
+}
+
+template <typename K, typename V>
+std::experimental::optional<V> HashMap<K, V>::at(const K& key) {
     std::experimental::optional<V> res;
 
     auto kv = _array[_hash(key) % _arraySize].head();
@@ -32,6 +45,11 @@ std::experimental::optional<V> HashMap<K, V>::at(K key) {
         res = kv.value().value;
     }
     return res;
+}
+
+template <typename K, typename V>
+bool operator==(const ds::KeyValuePair<K, V>& lhs, const ds::KeyValuePair<K, V>& rhs) {
+    return lhs.key == rhs.key;
 }
 
 }  // namespace ds
