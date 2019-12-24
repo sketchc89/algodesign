@@ -55,7 +55,6 @@ std::experimental::optional<T> List<T>::find(const T& val) const noexcept {
     Node<T>* currentNode = _head;
     while (currentNode->next != nullptr) {
         auto v = currentNode->value;
-        std::cout << "Found " << v << '\n';
         if (v == val) {
             res = v;
             return res;
@@ -63,12 +62,12 @@ std::experimental::optional<T> List<T>::find(const T& val) const noexcept {
             currentNode = currentNode->next;
         }
     }
+
     // check last value
     auto v = currentNode->value;
     if (currentNode->value == val) {
         res = v;
     }
-    std::cout << "Didn't find it\n";
     return res;
 }
 
