@@ -49,6 +49,29 @@ void List<T>::swap(List& other) noexcept {
     other._head = temp;
 }
 
+template <typename T>
+std::experimental::optional<T> List<T>::find(const T& val) const noexcept {
+    std::experimental::optional<T> res;
+    Node<T>* currentNode = _head;
+    while (currentNode->next != nullptr) {
+        auto v = currentNode->value;
+        std::cout << "Found " << v << '\n';
+        if (v == val) {
+            res = v;
+            return res;
+        } else {
+            currentNode = currentNode->next;
+        }
+    }
+    // check last value
+    auto v = currentNode->value;
+    if (currentNode->value == val) {
+        res = v;
+    }
+    std::cout << "Didn't find it\n";
+    return res;
+}
+
 }  // namespace ds
 
 namespace std {

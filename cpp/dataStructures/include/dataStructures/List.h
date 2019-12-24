@@ -26,6 +26,7 @@ public:
     void swap(List& other) noexcept;
     void pushBack(const T& value);
     void popBack();
+    std::experimental::optional<T> find(const T& val) const noexcept;
 
 private:
     Node<T>* _head;

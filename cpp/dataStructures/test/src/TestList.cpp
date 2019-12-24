@@ -4,8 +4,10 @@
 #include <gtest/gtest.h>
 
 #include <experimental/optional>
+#include <string>
 
 using ds::List;
+using namespace ::testing;
 
 namespace testing {
 TEST(List, Initializes) {
@@ -71,6 +73,18 @@ TEST_F(EmptyListFixture, Swaps) {
 TEST_F(EmptyListFixture, StdSwaps) {
     List<int32_t> l2;
     std::swap(l, l2);
+}
+
+class FilledListFixture : public EmptyListFixture {
+    void SetUp() override {
+        for (size_t i = 0; i < 32; ++i) {
+            l.pushBack(i);
+        }
+    }
+};  // class FilledListFixture
+
+TEST_F(FilledListFixture, Find) {
+    ASSERT_TRUE(l.find(0));
 }
 
 }  // namespace testing
