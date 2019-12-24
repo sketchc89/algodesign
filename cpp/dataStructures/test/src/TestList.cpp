@@ -62,4 +62,15 @@ TEST_F(EmptyListFixture, PopsBackMultiple) {
     res = l.head();
     ASSERT_FALSE(res);
 }
+
+TEST_F(EmptyListFixture, Swaps) {
+    List<int32_t> l2;
+    l.swap(l2);
+}
+
+TEST_F(EmptyListFixture, StdSwaps) {
+    List<int32_t> l2;
+    std::swap(l, l2);
+}
+
 }  // namespace testing

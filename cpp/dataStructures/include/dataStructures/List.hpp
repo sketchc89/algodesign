@@ -42,4 +42,18 @@ void List<T>::popBack() {
     }
 }
 
+template <typename T>
+void List<T>::swap(List& other) noexcept {
+    Node<T>* temp = _head;
+    _head = other._head;
+    other._head = temp;
+}
+
 }  // namespace ds
+
+namespace std {
+template <typename T>
+void swap(ds::List<T>& lhs, ds::List<T>& rhs) noexcept {
+    lhs.swap(rhs);
+}
+}  // namespace std

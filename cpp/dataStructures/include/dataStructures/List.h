@@ -34,10 +34,9 @@ private:
 
 }  // namespace ds
 
-// template <typename T>
-// void std::swap(ds::List<T>& lhs, ds::List<T>& rhs) noexcept;
-//
-// template <typename T>
-// void std::swap(ds::Node<T>& lhs, ds::Node<T>& rhs) noexcept;
+namespace std {
+template <typename T>
+void swap(ds::List<T>& lhs, ds::List<T>& rhs) noexcept;
+}  // namespace std
 
 #include "List.hpp"
