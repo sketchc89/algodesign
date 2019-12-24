@@ -16,4 +16,9 @@ protected:
     HashMap<int32_t, std::string> map;
 };  // class EmptyHashMapFixture
 
+TEST_F(EmptyHashMapFixture, InsertKey) {
+    map.insert(100, std::string("one hundred"));
+    ASSERT_THAT(map.at(100).value(), Eq("one hundred"));
+}
+
 }  // namespace testing
