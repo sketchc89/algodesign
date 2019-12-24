@@ -23,8 +23,43 @@ TEST_F(EmptyListFixture, EmptyList) {
 
 TEST_F(EmptyListFixture, PushesBack) {
     l.pushBack(5);
-    ASSERT_TRUE(l.head());
-    ASSERT_THAT(l.head().value(), Eq(5));
+    auto res = l.head();
+    ASSERT_TRUE(res);
+    ASSERT_THAT(res.value(), Eq(5));
 }
 
+TEST_F(EmptyListFixture, PushesBackMultiple) {
+    l.pushBack(5);
+    l.pushBack(6);
+
+    auto res = l.head();
+    ASSERT_TRUE(res);
+    ASSERT_THAT(res.value(), Eq(6));
+}
+
+TEST_F(EmptyListFixture, PopsBack) {
+    l.pushBack(5);
+
+    l.popBack();
+    auto res = l.head();
+    ASSERT_FALSE(res);
+}
+
+TEST_F(EmptyListFixture, PopsBackMultiple) {
+    l.pushBack(5);
+    l.pushBack(6);
+
+    auto res = l.head();
+    ASSERT_TRUE(res);
+    ASSERT_THAT(res.value(), Eq(6));
+
+    l.popBack();
+    res = l.head();
+    ASSERT_TRUE(res);
+    ASSERT_THAT(res.value(), Eq(5));
+
+    l.popBack();
+    res = l.head();
+    ASSERT_FALSE(res);
+}
 }  // namespace testing

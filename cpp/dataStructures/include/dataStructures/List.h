@@ -6,10 +6,10 @@
 namespace ds {
 
 template <typename T>
-class Node;
-
-template <typename T>
-using Link = std::unique_ptr<Node<T>>;
+struct Node {
+    T value;
+    Node<T>* next;
+};
 
 /*! @brief Linked List */
 template <typename T>
@@ -21,31 +21,16 @@ public:
     List(List&& other) = default;
     List& operator=(const List& other) = default;
     List& operator=(List&& other) = default;
-    virtual ~List() = default;
-    void swap(List& other) noexcept;
+    virtual ~List();
     std::experimental::optional<T> head() const noexcept;
-    void pushBack(const T& elem);
+    void swap(List& other) noexcept;
+    void pushBack(const T& value);
+    void popBack();
 
 private:
-    Link<T> _head;
+    Node<T>* _head;
 };  // class List
 
-template <typename T>
-class Node {
-public:
-    Node(T elem);
-    Node(const Node& other);
-    Node(Node&& other);
-    Node& operator=(const Node& other) = default;
-    Node& operator=(Node&& other) = default;
-    virtual ~Node() = default;
-    void swap(Node& other);
-    T value() const noexcept;
-
-private:
-    T _elem;
-    Link<T> _next;
-};
 
 }  // namespace ds
 
