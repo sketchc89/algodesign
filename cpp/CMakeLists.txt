@@ -42,3 +42,4 @@ endif()
 # etc. as appropriate
 
 add_subdirectory(dataStructures)
+add_subdirectory(codingProblems)
