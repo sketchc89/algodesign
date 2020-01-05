@@ -19,7 +19,7 @@ int uniqueBinarySearch(const vector<int>& vi, int lo, int hi) {
     int mid = (lo + hi) / 2;
     if ((mid == 0 || vi[mid] > vi[mid - 1])
         && (static_cast<size_t>(mid) == vi.size() - 1 || vi[mid] < vi[mid + 1])) {
-        return mid;  // SUCCESS
+        return vi[mid];  // SUCCESS
     }
     int loSearch = uniqueBinarySearch(vi, 0, mid);
     int hiSearch = uniqueBinarySearch(vi, mid + 1, hi);
